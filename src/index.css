@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.message {
+  color: #61dafb;
+  margin: 0 0 20px 0;
+}
+
+.message:hover {
+  cursor: pointer;
+}
+
+.counterText {
+  margin: 0 0 20px 0;
+}
+
+.counterButton {
+  background-color: #61dafb;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #282c34;
+  font-size: 16px;
+}
+
+.counterButton:hover {
+  cursor: pointer;
+  background-color: #61dafbc9;
+}
