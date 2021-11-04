@@ -72,20 +72,6 @@ code {
   padding: 0 10px;
 }
 
-/* .button {
-  height: 30px;
-  background-color: #61dafb;
-  color: #282c34;
-  border: none;
-  border-radius: 0 5px 5px 0;
-  padding: 0 10px;
-}
-
-.button:hover {
-  cursor: pointer;
-  background-color: #61dafbc9;
-} */
-
 .button {
   margin-left: 10px !important;
 }

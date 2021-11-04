@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import './App.css';
 
-// import { Message } from "./components/Message";
-// import { Counter } from "./components/Counter";
 import { Form } from "./components/Form";
 import { MessageList } from "./components/MessagesList";
 import { AUTHORS } from "./utils/constants";
@@ -11,14 +9,17 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function App() {
-  // const [text, setText] = useState("You can click on me!");
+  const customTheme = createTheme({
+    palette: {
+      primary: {
+        main: '#8484ee',
+      },
+    },
+  });
 
-  // useEffect(() => {}, [])
-  // const handleClick = () => {
-  //   setText("Your number: " + Math.round(Math.random() * 10));
-  // };
   const messagesList = [];
 
   const [messages, setMessages] = useState(messagesList);
@@ -47,40 +48,38 @@ function App() {
   }, [messages]);
 
   return (
-    <div className="App" ref={parentRef}>
-      <div className="wrapper">
-        {/* <header className="App-header"> */}
-          {/* <Message message={text} onMessageClick={handleClick} />
-        <Counter /> */}
-        <div className="container">
-          <div className="chatList">
-            <div className="chatListHeader">Chats list</div>
-            <List disablePadding>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="One" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Two" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Three" />
-                </ListItemButton>
-              </ListItem>
-            </List>
+    <ThemeProvider theme={customTheme}>
+      <div className="App" ref={parentRef}>
+        <div className="wrapper">
+          <div className="container">
+            <div className="chatList">
+              <div className="chatListHeader">Chats list</div>
+              <List disablePadding>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemText primary="One" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemText primary="Two" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemText primary="Three" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </div>
+            <div className="chat">
+              <MessageList messages={messages} />
+              <Form onSendMessage={handleSendMessage} />
+            </div>
           </div>
-          <div className="chat">
-            <MessageList messages={messages} />
-            <Form onSendMessage={handleSendMessage} />
-          </div>
-        {/* </header> */}
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
