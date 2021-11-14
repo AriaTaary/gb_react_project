@@ -135,5 +135,5 @@ code {
 }
 
 .chatList-link:hover {
-  color: #8484ee;
+  color: #8484ee !important;
 }
