@@ -19,6 +19,11 @@ code {
 
 .container {
   display: flex;
+  flex-direction: column;
+}
+
+.chats-page {
+  display: flex;
   flex-direction: row;
 }
 
@@ -102,4 +107,33 @@ code {
   padding: 10px;
   font-size: 21px;
   font-weight: bold;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 40px !important;
+}
+
+.menu-item {
+  justify-content: center !important;
+}
+
+.menu-link {
+  text-decoration: none;
+  color: black;
+}
+
+.menu-link:hover {
+  color: #8484ee;
+}
+
+.chatList-link {
+  text-decoration: none;
+  color: black;
+}
+
+.chatList-link:hover {
+  color: #8484ee !important;
 }

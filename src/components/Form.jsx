@@ -7,8 +7,6 @@ export const Form = ({ onSendMessage }) => {
     const [value, setValue] = useState('');
     const inputRef = useRef();
 
-    const [count, setCount] = useState(0);
-
     const handleChange = (event) => {
         setValue(event.target.value);
     }
@@ -18,11 +16,10 @@ export const Form = ({ onSendMessage }) => {
         onSendMessage({
             text: value,
             author: AUTHORS.user,
-            id: `user-message-${count}`,
+            id: `user-message-${Date.now()}`,
         });
         
         inputRef.current?.focus();
-        setCount(count + 1);
         setValue("");
     };
 
