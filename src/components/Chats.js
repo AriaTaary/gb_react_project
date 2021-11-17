@@ -6,7 +6,7 @@ import { AUTHORS } from "../utils/constants";
 import { ChatList } from "./ChatsList";
 import { Navigate, useParams } from "react-router";
 
-function Chats({ chatList, messages, setMessages }) {
+function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat }) {
     const { chatId } = useParams();
 
     const parentRef = useRef();
@@ -46,7 +46,12 @@ function Chats({ chatList, messages, setMessages }) {
 
     return (
         <div className="chats-page" ref={parentRef}>
-            <ChatList color="black" chatList={chatList} />
+            <ChatList 
+                color="black" 
+                chatList={chatList} 
+                onAddChat={onAddChat}
+                onDeleteChat={onDeleteChat}
+            />
             <div className="chat">
                 <MessageList messages={messages[chatId]} />
                 <Form onSendMessage={handleSendMessage} />

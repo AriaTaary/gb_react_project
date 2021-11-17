@@ -1,8 +1,11 @@
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
+import { chatsReducer } from "./chats/reducer";
 import { profileReducer } from "./profile/reducer";
 
-
 export const store = createStore(
-    profileReducer,
+    combineReducers({
+        chats: chatsReducer,
+        profile: profileReducer,
+    }),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

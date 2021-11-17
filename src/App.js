@@ -1,54 +1,23 @@
-import { useState } from "react";
-import './App.css';
+import React, { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-
-import { AUTHORS } from "./utils/constants";
 
 import Chats from "./components/Chats";
 import { Home } from "./components/HomePage";
-import { Profile } from "./components/ProfilePage";
+import { ConnectedProfile, Profile } from "./components/ProfilePage";
 import ChatList from "./components/ChatsList";
-
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { store } from "./store";
+import { addChat, deleteChat } from "./store/chats/actions";
 
-const initialChatList = [
-  {
-    name: "First chat",
-    id: "chat1",
-  },
-  {
-    name: "Second chat",
-    id: "chat2",
-  },
-  {
-    name: "Third chat",
-    id: "chat3",
-  },
-];
+import './App.css';
 
-const initialMessages = {
-  chat1: [
-    {
-      text: "hello first chat!",
-      author: AUTHORS.user,
-    },
-  ],
-  chat2: [
-    {
-      text: "hello second chat!",
-      author: AUTHORS.user,
-    },
-  ],
-  chat3: [],
-};
+const initialMessages = {};
 
-function App() {
+export const App = () => {
   const customTheme = createTheme({
     palette: {
       primary: {
@@ -57,12 +26,35 @@ function App() {
     },
   });
 
-  const [chatList, setChatList] = useState(initialChatList);
+  const chatList = useSelector((state) => state.chats);
   const [messages, setMessages] = useState(initialMessages);
+  const dispatch = useDispatch();
+
+  const handleAddChat = useCallback(
+    (name) => {
+      const newId = `chat${Date.now()}`;
+
+      dispatch(addChat({ name, id: newId }));
+      setMessages((prevMessages) => ({
+        ...prevMessages,
+        [newId]: [],
+      }));
+    },
+    [dispatch]
+  );
+
+  const handleDeleteChat = useCallback((idToDelete) => {
+    dispatch(deleteChat(idToDelete));
+    setMessages((prevMessages) => {
+      const newMessages = { ...prevMessages };
+      delete newMessages[idToDelete];
+
+      return newMessages;
+    });
+  }, []);
 
   return (
     <ThemeProvider theme={customTheme}>
-      <Provider store={store}>
         <BrowserRouter>
           <div className="App">
             <div className="wrapper">
@@ -83,9 +75,18 @@ function App() {
 
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="profile" element={<Profile />} />
+                  <Route path="profile" element={<ConnectedProfile />} />
                   <Route path="chats">
-                    <Route index element={<ChatList chatList={chatList} />} />
+                    <Route 
+                      index 
+                      element={
+                        <ChatList 
+                          onAddChat={handleAddChat}
+                          onDeleteChat={handleDeleteChat}
+                          chatList={chatList} 
+                        />
+                      } 
+                    />
                     <Route
                       path=":chatId"
                       element={
@@ -93,6 +94,8 @@ function App() {
                           chatList={chatList}
                           messages={messages}
                           setMessages={setMessages}
+                          onAddChat={handleAddChat}
+                          onDeleteChat={handleDeleteChat}
                         />
                       }
                     />
@@ -103,7 +106,6 @@ function App() {
             </div>
           </div>
         </BrowserRouter>
-      </Provider>
     </ThemeProvider>
   );
 }
