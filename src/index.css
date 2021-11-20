@@ -100,6 +100,8 @@ code {
   width: fit-content;
   border: 1px solid rgb(199, 199, 199);
   border-radius: 5px 0 0 5px;
+  height: 400px;
+  box-sizing: border-box;
 }
 
 .chatListHeader {
@@ -136,4 +138,27 @@ code {
 
 .chatList-link:hover {
   color: #8484ee !important;
+}
+
+.chatListForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 16px;
+}
+
+.chatList-item {
+  display: flex;
+  justify-content: space-between !important;
+  width: 100%;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  margin-right: 0 !important;
 }
