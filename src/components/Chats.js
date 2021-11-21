@@ -7,31 +7,13 @@ import { ChatList } from "./ChatsList";
 import { Navigate, useParams } from "react-router";
 import { connect } from "react-redux";
 
-// import {
-//     createSelectMessagesForChat,
-//     selectMessages,
-//     selectMessagesForChat,
-// } from "../store/messages/selectors";
 import { addMessage } from "../store/messages/actions";
 
 function Chats({ messages, sendMessage }) {
     const { chatId } = useParams();
 
-    // const parentRef = useRef();
-
-    // const handleSendMessage = useCallback(
-    //     (newMessage) => {
-    //         setMessages((prevMessages) => ({
-    //             ...prevMessages,
-    //             [chatId]: [...prevMessages[chatId], newMessage],
-    //         }));
-    //     },
-    //     [chatId]
-    // );
-
     const handleSendMessage = useCallback(
         (newMessage) => {
-            // dispatch(addMessage(chatId, newMessage));
             sendMessage(chatId, newMessage);
         },
         [chatId, sendMessage]
@@ -62,12 +44,7 @@ function Chats({ messages, sendMessage }) {
 
     return (
         <div className="chats-page">
-            <ChatList 
-                color="black" 
-                // chatList={chatList} 
-                // onAddChat={onAddChat}
-                // onDeleteChat={onDeleteChat}
-            />
+            <ChatList color="black"/>
             <div className="chat">
                 <MessageList messages={messages[chatId]} />
                 <Form onSendMessage={handleSendMessage} />
