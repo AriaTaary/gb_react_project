@@ -2,8 +2,14 @@ import { List, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { Chat } from "./Chat";
 
-export const ChatList = ({ chatList, onAddChat, onDeleteChat }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { addChat } from "../store/chats/actions";
+import { selectChats } from "../store/chats/selectors";
 
+export const ChatList = () => {
+
+    const chatList = useSelector(selectChats);
+    const dispatch = useDispatch();
     const [value, setValue] = useState("");
 
     const handleChange = (e) => {
@@ -12,7 +18,9 @@ export const ChatList = ({ chatList, onAddChat, onDeleteChat }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onAddChat(value);
+
+        const newId = `chat${Date.now()}`;
+        dispatch(addChat({ name: value, id: newId }));
 
         setValue("");
     };
@@ -22,7 +30,7 @@ export const ChatList = ({ chatList, onAddChat, onDeleteChat }) => {
             <div className="chatListHeader">Chats list</div>
             <List disablePadding>
                 {chatList.map((chat) => (
-                    <Chat key={chat.id} chat={chat} onDeleteChat={onDeleteChat} />
+                    <Chat key={chat.id} chat={chat}/>
                 ))}
             </List>
             <form className="chatListForm" onSubmit={handleSubmit}>
