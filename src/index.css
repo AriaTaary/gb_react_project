@@ -38,6 +38,11 @@ code {
   padding: 10px;
   box-sizing: border-box;
   border-radius: 0 5px 5px 0;
+  overflow: hidden;
+}
+
+.messagesContainer {
+  overflow-y: auto;
 }
 
 .message {
@@ -93,7 +98,7 @@ code {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 10px;
 }
 
 .chatList {
@@ -153,7 +158,7 @@ code {
   width: 100%;
 }
 
-.profile {
+.profile, .home {
   display: flex;
   flex-direction: column;
   align-items: center;

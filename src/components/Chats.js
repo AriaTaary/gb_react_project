@@ -1,24 +1,22 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { Form } from "./Form";
 import { MessageList } from "./MessagesList";
 import { AUTHORS } from "../utils/constants";
 
 import { ChatList } from "./ChatsList";
 import { Navigate, useParams } from "react-router";
+import { connect } from "react-redux";
 
-function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat }) {
+import { addMessage } from "../store/messages/actions";
+
+function Chats({ messages, sendMessage }) {
     const { chatId } = useParams();
-
-    const parentRef = useRef();
 
     const handleSendMessage = useCallback(
         (newMessage) => {
-            setMessages((prevMessages) => ({
-                ...prevMessages,
-                [chatId]: [...prevMessages[chatId], newMessage],
-            }));
+            sendMessage(chatId, newMessage);
         },
-        [chatId]
+        [chatId, sendMessage]
     );
 
     useEffect(() => {
@@ -45,13 +43,8 @@ function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat }) {
     }
 
     return (
-        <div className="chats-page" ref={parentRef}>
-            <ChatList 
-                color="black" 
-                chatList={chatList} 
-                onAddChat={onAddChat}
-                onDeleteChat={onDeleteChat}
-            />
+        <div className="chats-page">
+            <ChatList color="black"/>
             <div className="chat">
                 <MessageList messages={messages[chatId]} />
                 <Form onSendMessage={handleSendMessage} />
@@ -61,3 +54,16 @@ function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat }) {
 }
 
 export default Chats;
+
+const mapStateToProps = (state) => ({
+    messages: state.messages,
+});
+
+const mapDispatchToProps = {
+    sendMessage: addMessage,
+};
+
+export const ConnectedChats = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Chats);

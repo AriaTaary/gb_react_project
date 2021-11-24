@@ -1,8 +1,13 @@
 import { ListItem, Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deleteChat } from "../store/chats/actions";
 
-export const Chat = ({ chat, onDeleteChat }) => {
-    const handleDeleteClick = () => { onDeleteChat(chat.id) };
+export const Chat = ({ chat }) => {
+    const dispatch = useDispatch();
+    const handleDeleteClick = () => {
+        dispatch(deleteChat(chat.id));
+    };
 
     return (
         <>
