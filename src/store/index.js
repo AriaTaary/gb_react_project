@@ -3,6 +3,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import { chatsReducer } from "./chats/reducer";
 import { messagesReducer } from "./messages/reducer";
 import { profileReducer } from "./profile/reducer";
+import { newsReducer } from "./news/reducer";
 
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
@@ -22,6 +23,7 @@ const persistedReducer = persistReducer(
         chats: chatsReducer,
         messages: messagesReducer,
         profile: profileReducer,
+        news: newsReducer,
     })
 );
 
