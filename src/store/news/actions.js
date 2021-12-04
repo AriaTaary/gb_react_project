@@ -27,8 +27,13 @@ export const getNews = () => async (dispatch) => {
         }
 
         const result = await response.json();
+
         dispatch(getNewsSuccess(result));
     } catch (error) {
         dispatch(getNewsFailure(error.message));
     }
+};
+
+export const foo = () => {
+    throw new Error("New error");
 };

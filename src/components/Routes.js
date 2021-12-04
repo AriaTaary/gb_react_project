@@ -9,8 +9,48 @@ import { ConnectedChats } from "./Chats";
 import { Home } from "./HomePage";
 import { ConnectedProfile } from "./ProfilePage";
 import { News } from "./News";
+import { PrivateRoute } from "./PrivateRoute";
+import { PublicOutlet } from "./PublicRoute";
+import { SignUp } from "./SignUp";
 
-export const Router = () => (
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { onValue } from "firebase/database";
+
+import { auth, messagesRef } from "../services/firebase";
+import { signIn, signOut } from "../store/profile/actions";
+
+export const Router = () => {
+    const dispatch = useDispatch();
+    const [msgs, setMsgs] = useState({});
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                dispatch(signIn());
+            } else {
+                dispatch(signOut());
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        onValue(messagesRef, (snapshot) => {
+            const newMsgs = {};
+
+            snapshot.forEach((chatMsgsSnap) => {
+                newMsgs[chatMsgsSnap.key] = Object.values(
+                    chatMsgsSnap.val().messageList || {}
+                );
+            });
+
+            setMsgs(newMsgs);
+        });
+    }, []);
+
+    return (
     <BrowserRouter>
         <div className="App">
             <div className="wrapper">
@@ -32,11 +72,37 @@ export const Router = () => (
                 </List>
 
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="profile" element={<ConnectedProfile />} />
+                    <Route path="/" element={<PublicOutlet />}>
+                        <Route path="" element={<Home />} />
+                    </Route>
+                    <Route path="/signup" element={<PublicOutlet />}>
+                        <Route path="" element={<SignUp />} />
+                    </Route>
+                    <Route
+                        path="profile"
+                        element={
+                            <PrivateRoute>
+                                <ConnectedProfile />
+                            </PrivateRoute>
+                        }
+                    />
                     <Route path="chats">
-                        <Route index element={<ChatList />} />
-                        <Route path=":chatId" element={<ConnectedChats />} />
+                        <Route 
+                            index 
+                            element={
+                                <PrivateRoute>
+                                    <ChatList />
+                                </PrivateRoute>
+                            } 
+                        />
+                        <Route
+                            path=":chatId"
+                            element={
+                                <PrivateRoute>
+                                    <ConnectedChats msgs={msgs} />
+                                </PrivateRoute>
+                            }
+                        />
                     </Route>
                     <Route path="news" element={<News />} />
                     <Route path="*" element={<h3>404</h3>} />
@@ -45,4 +111,5 @@ export const Router = () => (
             </div>
         </div>
     </BrowserRouter>
-);
+    );
+};
