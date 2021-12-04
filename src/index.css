@@ -158,7 +158,7 @@ code {
   width: 100%;
 }
 
-.profile, .home {
+.profile, .home, .news, .newsContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
