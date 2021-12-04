@@ -167,3 +167,24 @@ code {
 .label {
   margin-right: 0 !important;
 }
+
+.regForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+  color: #8484ee;
+  margin-top: 20px;
+}
+
+.link:hover {
+  color: rgb(92, 92, 166);
+  cursor: pointer;
+}
+
+.buttonOut {
+  margin-top: 20px !important;
+}
