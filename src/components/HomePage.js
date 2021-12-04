@@ -11,9 +11,9 @@ export const Home = () => {
         setLoading(true);
         try {
             await logIn(email, pass);
-        } catch (err) {
-            console.log(err);
-            setError(err.message);
+        } catch (error) {
+            console.log(error);
+            setError(error.message);
         } finally {
             setLoading(false);
         }
